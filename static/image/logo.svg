@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 290 290" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <title>
+    logo
+  </title>
+  <defs>
+    <linearGradient id="c" x1="0%" x2="0%" y1="0%" y2="100%">
+      <stop stop-color="#24AEF4" offset="0%"/>
+      <stop stop-color="#177BDB" offset="100%"/>
+    </linearGradient>
+    <rect id="a" width="256" height="256" rx="35"/>
+    <filter id="b" width="200%" height="200%" x="-50%" y="-50%" filterUnits="objectBoundingBox">
+      <feMorphology radius=".5" operator="dilate" in="SourceAlpha" result="shadowSpreadOuter1"/>
+      <feOffset dy="8" in="shadowSpreadOuter1" result="shadowOffsetOuter1"/>
+      <feGaussianBlur stdDeviation="5" in="shadowOffsetOuter1" result="shadowBlurOuter1"/>
+      <feComposite in="shadowBlurOuter1" in2="SourceAlpha" operator="out" result="shadowBlurOuter1"/>
+      <feColorMatrix values="0 0 0 0 0.117647059 0 0 0 0 0.117647059 0 0 0 0 0.117647059 0 0 0 0.4 0" in="shadowBlurOuter1" result="shadowMatrixOuter1"/>
+      <feOffset dy="2" in="SourceAlpha" result="shadowOffsetOuter2"/>
+      <feGaussianBlur stdDeviation="2.5" in="shadowOffsetOuter2" result="shadowBlurOuter2"/>
+      <feComposite in="shadowBlurOuter2" in2="SourceAlpha" operator="out" result="shadowBlurOuter2"/>
+      <feColorMatrix values="0 0 0 0 0.149019608 0 0 0 0 0.149019608 0 0 0 0 0.149019608 0 0 0 0.35 0" in="shadowBlurOuter2" result="shadowMatrixOuter2"/>
+      <feMerge>
+        <feMergeNode in="shadowMatrixOuter1"/>
+        <feMergeNode in="shadowMatrixOuter2"/>
+      </feMerge>
+    </filter>
+    <mask id="d" width="256" height="256" x="0" y="0" fill="#fff">
+      <use xlink:href="#a"/>
+    </mask>
+  </defs>
+  <g fill="none" fill-rule="evenodd" transform="translate(17 17)">
+    <use fill="#000" filter="url(#b)" xlink:href="#a"/>
+    <use fill="#FFF" xlink:href="#a"/>
+    <use fill="url(#c)" stroke="#78C4FF" stroke-width="30" mask="url(#d)" xlink:href="#a"/>
+    <circle cx="68" cy="128" r="32" fill="#FFF"/>
+    <circle cx="188" cy="128" r="32" fill="#FFF"/>
+  </g>
+</svg>

@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Moonrise</title>
+    <link rel="stylesheet" href="../node_modules/photon/dist/css/photon.css">
+    <link rel="stylesheet" href="../node_modules/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="../dist/css/main.css">
+  </head>
+  <body>
+    <div id="app"></div>
+    <script>
+      (function () {
+        const IS_DEV = process.execPath.indexOf('electron') > -1;
+        if (IS_DEV) {
+          var client = require('electron-connect').client.create();
+          const { dialog } = require('electron').remote;
+          client.on('error', err => {
+            dialog.showErrorBox(err.name, err.message);
+          });
+          client.sendMessage('ready');
+        }
+        require('../dist/js/boot.js');
+      })();
+    </script>
+  </body>
+</html>

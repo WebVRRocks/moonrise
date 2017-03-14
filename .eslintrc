@@ -1,0 +1,59 @@
+{
+  "env": {
+    "browser": true,
+    "node": true
+  },
+  "plugins": [
+    "react",
+    "import"
+  ],
+  "extends": [
+    "plugin:react/recommended"
+  ],
+  "parserOptions": {
+    "ecmaVersion": 6,
+    "ecmaFeatures": {
+      "jsx": true
+    }
+  },
+  "rules": {
+    "indent": [
+      2,
+      2,
+      {
+        "SwitchCase": 1
+      }
+    ],
+    "eqeqeq": 2,
+    "curly": 2,
+    "quotes": [2, "single"],
+    "no-unused-vars": 2,
+    "no-undef": 2,
+    "no-shadow": 2,
+    "comma-dangle": [
+      2,
+      "never"
+    ],
+    "semi": [
+      2,
+      "always"
+    ],
+    "space-before-function-paren": [
+      2,
+      "always"
+    ],
+    "object-curly-spacing": [
+      2,
+      "never"
+    ],
+    "import/no-unresolved": [
+      2,
+      {
+        "commonjs": true
+      }
+    ]
+  },
+  "globals": {
+    "moonrise": true
+  }
+}
