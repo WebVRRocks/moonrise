@@ -1,7 +1,3 @@
-const electron = require('electron-connect').server.create({
-  stopOnClose: true
-});
-
 const gulp = require('gulp');
 const babel = require('gulp-babel');
 const gulpUtil = require('gulp-util');
@@ -16,10 +12,20 @@ const jsPath = [
 const sassPath = 'style/**/*.scss';
 const fontPath = 'style/fonts/*.*';
 
+let electron = null;
 let errorQueue = [];
 let isWatching = false;
 let hasElectronStarted = false;
 let hasErrors = false;
+
+function startDev () {
+  electron = require('electron-connect').server.create({
+    stopOnClose: true
+  });
+
+  isWatching = true;  // So we don't crash when watching.
+  hasErrors = false;
+}
 
 function enqueueError () {
   return err => {
@@ -74,8 +80,7 @@ gulp.task('default', ['clean'], () => {
 });
 
 gulp.task('dev', ['default'], () => {
-  isWatching = true;  // So we don't crash when watching.
-  hasErrors = false;
+  startDev();
 
   gulp.watch(htmlPath, ['dev-html']);
   gulp.watch(jsPath, ['dev-js']);
@@ -145,8 +150,10 @@ gulp.task('transpile-js', () => {
       hasErrors = true;
     })))
     .pipe(gracefulWrap(gulp.dest('dist/js'), true).on('end', () => {
-      if (!hasErrors) {
-        electronRestart();
+      if (electron) {
+        if (!hasErrors) {
+          electronRestart();
+        }
       }
     }));
 });
