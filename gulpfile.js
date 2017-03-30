@@ -19,7 +19,6 @@ let hasElectronStarted = false;
 let hasErrors = false;
 
 function startDev () {
-  console.log('start dev');
   electron = require('electron-connect').server.create({
     stopOnClose: true
   });
