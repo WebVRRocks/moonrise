@@ -82,8 +82,9 @@
     "prepackage-mac": "npm run qbrt-postinstall && npm run icon-icns",
     "package-win": "npm run build && node ./scripts/package.js --win32",
     "icon": "npm run icon-ico && npm run icon-icns",
-    "icon-ico": "./scripts/generate-icon-ico.sh static/image/icon-512.png resources/icon.ico",
-    "icon-icns": "./scripts/generate-icon-icns.sh static/image/icon-512.png resources/icon.icns"
+    "icon-ico": "./scripts/generate-icon-ico.sh static/image/icon-256.png resources/icon.ico",
+    "icon-icns": "./scripts/generate-icon-icns.sh static/image/icon-512.png resources/icon.icns",
+    "travis-install": "gem install travis -v 1.8.8 --no-rdoc --no-ri"
   },
   "keywords": [
     "moonrise",
