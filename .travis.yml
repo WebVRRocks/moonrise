@@ -1,5 +1,30 @@
 language: node_js
+
 node_js:
-  - 'node'
+  - node
+
+branches:
+  only:
+    - master
+
+cache:
+  directories:
+    - node_modules
+
 script:
-  - npm run build
+  - $CI_ACTION
+
+env:
+  global:
+    - TEST_SUITE=unit
+    - TEST_ENV=ci
+  matrix:
+    - CI_ACTION="npm run release"
+
+deploy:
+  provider: releases
+  api_key:
+    secure: cWjVC51FH7FQwWn1nguySmTqZ5qQar0PYjXzzpQQe0CI7dspvhYy4R1SLnLmLx5wTQR3fjtxWVMsFnZeqOcRn/6ErtHblnaE+xQjy26I1lo7NP7zz/t+VRLarPyNr0fOnHppbC6BkAXfcaeNhzAejqOc1hDsblVudTRBK7qGsfbUsdNzWJRYgzVacGge0aQEywiiHH/Ht/20GPgymy10I7xLhlQHZTFzAqz0S7xCC1FlEHYmIWnjFaqwMsHgln0CQEj4cpLhctcq4c1YFSPX9njsWJhufuXw4vVJhBrIQmRV41V+heSAG3MYjrlTfozny7xamwOGWU7aEFGslj+dq4ylVyrV9Em7O4kH4yjE2DNmuY/Jm0jbyNJX0uvRXpMNsasTG1qekmG4kLmr7JvFYD4iEK3GEy0SwoFFaFBPSvMQRolOwQn+Aixzw/L0Kwu9jND5kpT8kjzSG+Yov0l9U6aKBEN9ErvZAliHVkfvQwnnpCRmvXVOjWHgTXg6W7azfXl7Y4IgS7G8ghsEK+DDYHq3UZH5UXpSy+LNy4/ee8pORG0B8G8DntR1Daieym8Wn/Wi+HBtwjfF6M48UJXMFYUu2k6TvlUbz+3O8a8tVmAsG5tV5OQbSOmkCPMuNElP3GDBmvewJlQCVfH9ctk2FcoogCIty01c6hgCW856AEo=
+  file: releases/**
+  on:
+    repo: WebVRRocks/moonrise

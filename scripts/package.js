@@ -24,6 +24,9 @@ if (process.argv[2] === '--win32') {
   platform = 'win32';
   arch = 'ia32';
   icon = 'resources/icon.ico';
+} else if (process.argv[2] === '--win64') {
+  platform = 'win64';
+  icon = 'resources/icon.ico';
 }
 
 const options = {

@@ -1,0 +1,48 @@
+# AppVeyor file.
+# http://www.appveyor.com/docs/appveyor-yml
+
+version: '{build}'
+
+os: unstable
+
+cache:
+  - node_modules
+
+branches:
+  only:
+    - master
+
+environment:
+  GH_TOKEN:
+      secure: FxNVufyQzEIhuq5Te7BKvyzgmHmPpmtSAzxpE1y6FWEd700fgVXlPnh6Ghl0Qy8h
+  matrix:
+    - nodejs_version: 6
+
+install:
+  - ps: Install-Product node $env:nodejs_version
+  - set CI=true
+  - npm install -g npm@latest
+  - set PATH=%APPDATA%\npm;%PATH%
+  - npm install
+
+matrix:
+  fast_finish: true
+
+build: off
+
+shallow_clone: true
+
+clone_depth: 1
+
+test_script:
+  - npm run package
+
+artifacts:
+  - path: releases/**/*
+
+deploy:
+  # Deploy to GitHub Releases.
+  - provider: GitHub
+    artifact: /releases/**/*/  # Upload all release packages to GitHub Releases.
+    draft: false
+    prerelease: false
