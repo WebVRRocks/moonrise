@@ -19,6 +19,7 @@ let hasElectronStarted = false;
 let hasErrors = false;
 
 function startDev () {
+  console.log('start dev');
   electron = require('electron-connect').server.create({
     stopOnClose: true
   });
@@ -74,7 +75,9 @@ const gracefulWrap = stream => {
   return stream;
 };
 
-gulp.task('default', ['clean'], () => {
+gulp.task('default', ['build']);
+
+gulp.task('build', ['clean'], () => {
   gulp.start('transpile-js', 'transpile-sass', 'copy-fonts');
 });
 

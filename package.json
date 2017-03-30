@@ -60,7 +60,7 @@
     "start": "npm run dev",
     "dev": "gulp dev",
     "electron": "electron .",
-    "build": "gulp",
+    "build": "gulp build",
     "clean": "gulp clean",
     "test": "npm run test",
     "lint": "eslint --ignore-path .gitignore .",
