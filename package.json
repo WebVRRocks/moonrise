@@ -62,6 +62,7 @@
     "electron": "electron .",
     "build": "gulp",
     "clean": "gulp clean",
+    "test": "npm run test",
     "lint": "eslint --ignore-path .gitignore .",
     "lint:fix": "eslint --ignore-path .gitignore . --fix",
     "watch": "gulp watch",
