@@ -57,8 +57,7 @@ const electronCallback = electronProcessState => {
   }
 };
 
-const gracefulWrap = (stream, startElectronOnEnd) => {
-  //hasErrors = false;
+const gracefulWrap = stream => {
   stream.on('error', err => {
     hasErrors = true;
     broadcastError(err);

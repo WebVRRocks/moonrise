@@ -3,7 +3,7 @@
 const React = require('react');
 const ReactDOM = require('react-dom');
 
-const APP_NAME = require('../../../../package.json').productName;
+const APP_NAME = require('read-pkg-up').sync().productName;
 const Loader = require('../misc/Loader.js');
 
 const Login = React.createClass({

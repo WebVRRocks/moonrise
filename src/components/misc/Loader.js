@@ -2,7 +2,7 @@
 
 const React = require('react');
 
-const APP_NAME = require('../../../../package.json').productName;
+const APP_NAME = require('read-pkg-up').sync().productName;
 
 const Loader = React.createClass({
   propTypes: {
