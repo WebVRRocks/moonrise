@@ -1,3 +1,5 @@
+<img src="https://raw.githubusercontent.com/WebVRRocks/moonrise/master/static/image/icon-256.png" alt="Moonrise" title="Moonrise" width="256">
+
 # Moonrise
 
 The next-generation WebVR browser.
@@ -12,7 +14,10 @@ The next-generation WebVR browser.
 * **[Linux](https://webvr.rocks/linux)** (coming soon, to support Valve's experimental Steam VR builds)
 
 
+
 ## Local development
+
+### Installation
 
 1. Install [Node.js](https://nodejs.org/en/download/package-manager/) (which includes [npm](https://www.npmjs.com/)), if you haven't already.
 2. Clone this repository ([`WebVRRocks/moonrise`](https://github.com/WebVRRocks/moonrise)):
@@ -31,7 +36,7 @@ The next-generation WebVR browser.
 4. From the `webvrrocks/moonrise/` directory, run these commands:
 
     ```bash
-    # Start executable for local development (w/ live-reloading, error handling).
+    # Start application for local development (w/ live-reloading, error handling).
     npm start
 
     # Generate executable binaries for Windows and macOS.
@@ -46,25 +51,11 @@ The next-generation WebVR browser.
 Refer to [this page on MDN for debugging Firefox browser extensions](https://developer.mozilla.org/en-US/Add-ons/WebExtensions/Debugging_(before_Firefox_50)).
 
 
-### Installation
-
-#### Windows
-
-1. Ensure [Node](https://nodejs.org/en/download/package-manager/) is installed.
-2. Install the Node dependencies:
-
-    ```bash
-    npm install
-    ```
-3. Install [Git Bash](https://git-scm.com/downloads) for command-line usage.
-
-
 ## Acknowledgements
 
 Thank you to the following projects and individuals:
 
 * [Punk](https://github.com/scholtzm/punk) (Licensed under [MIT](https://github.com/scholtzm/punk/blob/master/LICENSE))
-
 
 
 ## Contributing
