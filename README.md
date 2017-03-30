@@ -1,4 +1,4 @@
-<img src="https://raw.githubusercontent.com/WebVRRocks/moonrise/master/static/image/icon-256.png" alt="Moonrise" title="Moonrise" width="256">
+<img src="https://raw.githubusercontent.com/WebVRRocks/moonrise/master/static/image/icon-512.png" alt="Moonrise" title="Moonrise" width="256">
 
 # Moonrise
 
