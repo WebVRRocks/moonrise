@@ -28,7 +28,7 @@
     "node-notifier": "^4.6.1",
     "object-assign": "^4.1.0",
     "photon": "github:connors/photon#ba7b496f5d69ff486cdcf446bbfce3838bd6a4d0",
-    "qbrt": "github:cvan/qbrt#22189d6",
+    "qbrt": "github:cvan/qbrt#588fc8d59dbccced0224d0a2783e584f8616b7cb",
     "react": "^15.4.1",
     "react-dom": "^15.4.1",
     "react-linkify": "^0.1.3",
