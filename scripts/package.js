@@ -12,7 +12,7 @@ var packageJson = require('./../package.json');
 var productName = packageJson.productName;
 var appVersion = packageJson.version;
 var electronVersion = packageJson.dependencies.electron;
-var outputFolder = 'package';
+var outputFolder = 'releases';
 
 var platform = 'darwin';
 var arch = 'x64';
