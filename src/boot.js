@@ -1,8 +1,8 @@
 require('./utils/monkey-patch');
 
-var Moonrise = require('./moonrise.js');
+const Moonrise = require('./moonrise.js');
 
-var moonrise = new Moonrise();
+const moonrise = new Moonrise();
 
 moonrise.start();
 
