@@ -38,11 +38,11 @@ exports.plugin = function (API) {
     log.warn('Got disconnected. EResult: %d (%s)', err.eresult, enumString);
 
     if (err.eresult === Steam.EResult.InvalidPassword ||
-      err.eresult === Steam.EResult.InvalidLoginAuthCode) {
+        err.eresult === Steam.EResult.InvalidLoginAuthCode) {
       let message = 'Login error: ';
       if (err.eresult === Steam.EResult.InvalidPassword) {
         message += 'Invalid Password';
-      } else (err.eresult === Steam.EResult.InvalidLoginAuthCode) {
+      } else if (err.eresult === Steam.EResult.InvalidLoginAuthCode) {
         message += 'Invalid Steam Guard auth code';
       }
       UIActions.logout(message);
