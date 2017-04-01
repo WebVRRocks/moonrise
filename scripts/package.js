@@ -5,7 +5,6 @@ const http = require('http');
 const path = require('path');
 
 const packager = require('electron-packager');
-const request = require('request');
 const rimraf = require('rimraf');
 const shell = require('shelljs');
 const zip = require('bestzip');
@@ -15,9 +14,6 @@ const packageJson = require('./../package.json');
 const productName = packageJson.productName;
 const appVersion = packageJson.version;
 const electronVersion = packageJson.dependencies.electron;
-const openvrDllUrl = 'https://github.com/ValveSoftware/openvr/raw/v1.0.6/bin/win64/openvr_api.dll';
-const openvrDllFilename = 'openvr_api.dll';
-const openvrDllPath = path.join(__dirname, '..', 'dist', openvrDllFilename);
 const outputFolder = 'releases';
 
 let platform = 'darwin';
@@ -100,25 +96,17 @@ function createWindowsPackage () {
   const appName = `${productName}-v${appVersion}-${platform}`;
   const zipName = `${appName}.zip`;
 
-  const req = request(openvrDllUrl)
-    .on('end', () => {
-      // `close()` is async, so call `cb` after closed.
-      req.close(() => {
-        shell.exec(`mv ${folderName} ${appName}`, renameExitCode => {
-          console.log('Rename exit code:', renameExitCode);
+  shell.exec(`mv ${folderName} ${appName}`, renameExitCode => {
+    console.log('Rename exit code:', renameExitCode);
 
-          zip(zipName, appName, err => {
-            if (err) {
-              console.error('Could not compress "%s%s"', folderName, zipName);
-              console.error(err.stack);
-              process.exit(1);
-            } else {
-              console.log('Successfully compressed "%s" to "%s"', folderName, zipName);
-            }
-          });
-        });
-      });
-    })
-    .pipe(fs.createWriteStream(openvrDllPath));
-
+    zip(zipName, appName, err => {
+      if (err) {
+        console.error('Could not compress "%s%s"', folderName, zipName);
+        console.error(err.stack);
+        process.exit(1);
+      } else {
+        console.log('Successfully compressed "%s" to "%s"', folderName, zipName);
+      }
+    });
+  });
 }
