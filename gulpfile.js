@@ -41,7 +41,8 @@ const electronCallback = electronProcessState => {
 
   if (electronProcessState === 'stopped') {
     process.exit();
-  } else if (electronProcessState === 'started' || electronProcessState === 'restarted') {
+  } else if (electronProcessState === 'started' ||
+             electronProcessState === 'restarted') {
     hasElectronStarted = true;
 
     broadcastError = err => {

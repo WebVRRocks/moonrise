@@ -28,7 +28,7 @@ const SteamGuard = React.createClass({
             <center>
               <h1 className="brand logo">{APP_NAME}</h1>
               <p className="app-message steamguard-instructions">
-                Check your inbox for an email containing the Steam Guard code you need in order to log in to Steam.
+                Check your inbox for an email containing the Steam Guard auth code you need in order to log in to Steam.
               </p>
             </center>
             <form className="auth-form steamguard-form">

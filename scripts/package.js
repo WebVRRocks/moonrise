@@ -1,22 +1,28 @@
 #!/usr/bin/env node
 
-var path = require('path');
+const fs = require('fs');
+const http = require('http');
+const path = require('path');
 
-var packager = require('electron-packager');
-var rimraf = require('rimraf');
-var shell = require('shelljs');
-var zip = require('bestzip');
+const packager = require('electron-packager');
+const request = require('request');
+const rimraf = require('rimraf');
+const shell = require('shelljs');
+const zip = require('bestzip');
 
-var packageJson = require('./../package.json');
+const packageJson = require('./../package.json');
 
-var productName = packageJson.productName;
-var appVersion = packageJson.version;
-var electronVersion = packageJson.dependencies.electron;
-var outputFolder = 'releases';
+const productName = packageJson.productName;
+const appVersion = packageJson.version;
+const electronVersion = packageJson.dependencies.electron;
+const openvrDllUrl = 'https://github.com/ValveSoftware/openvr/raw/v1.0.6/bin/win64/openvr_api.dll';
+const openvrDllFilename = 'openvr_api.dll';
+const openvrDllPath = path.join(__dirname, '..', 'dist', openvrDllFilename);
+const outputFolder = 'releases';
 
-var platform = 'darwin';
-var arch = 'x64';
-var icon = 'resources/icon.icns';
+let platform = 'darwin';
+let arch = 'x64';
+let icon = 'resources/icon.icns';
 
 if (process.argv[2] === '--win32') {
   platform = 'win32';
@@ -28,7 +34,7 @@ if (process.argv[2] === '--win32') {
   icon = 'resources/icon.ico';
 }
 
-var options = {
+const options = {
   asar: true,
   dir: '.',
   name: productName,
@@ -78,9 +84,9 @@ rimraf(path.join('.', outputFolder), removeErr => {
 function createMacPackage (appPath) {
   process.chdir(path.join('.', appPath));
 
-  var zipName = `${productName}-v${appVersion}-mac.zip`;
-  var appName = `${productName}.app`;
-  var dittoCommand = `ditto -c -k --sequesterRsrc --keepParent ${appName} ${zipName}`;
+  const zipName = `${productName}-v${appVersion}-mac.zip`;
+  const appName = `${productName}.app`;
+  const dittoCommand = `ditto -c -k --sequesterRsrc --keepParent ${appName} ${zipName}`;
 
   shell.exec(dittoCommand, exitCode => {
     console.log('Ditto command exit code:', exitCode);
@@ -90,21 +96,29 @@ function createMacPackage (appPath) {
 function createWindowsPackage () {
   process.chdir(path.join('.', outputFolder));
 
-  var folderName = `${productName}-${platform}-${arch}`;
-  var appName = `${productName}-v${appVersion}-${platform}`;
-  var zipName = `${appName}.zip`;
+  const folderName = `${productName}-${platform}-${arch}`;
+  const appName = `${productName}-v${appVersion}-${platform}`;
+  const zipName = `${appName}.zip`;
 
-  shell.exec(`mv ${folderName} ${appName}`, renameExitCode => {
-    console.log('Rename exit code:', renameExitCode);
+  const req = request(openvrDllUrl)
+    .on('end', () => {
+      // `close()` is async, so call `cb` after closed.
+      req.close(() => {
+        shell.exec(`mv ${folderName} ${appName}`, renameExitCode => {
+          console.log('Rename exit code:', renameExitCode);
 
-    zip(zipName, appName, err => {
-      if (err) {
-        console.error('Could not compress "%s%s"', folderName, zipName);
-        console.error(err.stack);
-        process.exit(1);
-      } else {
-        console.log('Successfully compressed "%s" to "%s"', folderName, zipName);
-      }
-    });
-  });
+          zip(zipName, appName, err => {
+            if (err) {
+              console.error('Could not compress "%s%s"', folderName, zipName);
+              console.error(err.stack);
+              process.exit(1);
+            } else {
+              console.log('Successfully compressed "%s" to "%s"', folderName, zipName);
+            }
+          });
+        });
+      });
+    })
+    .pipe(fs.createWriteStream(openvrDllPath));
+
 }

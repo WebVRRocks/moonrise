@@ -39,7 +39,12 @@ exports.plugin = function (API) {
 
     if (err.eresult === Steam.EResult.InvalidPassword ||
       err.eresult === Steam.EResult.InvalidLoginAuthCode) {
-      var message = 'Login error: ' + enumString;
+      let message = 'Login error: ';
+      if (err.eresult === Steam.EResult.InvalidPassword) {
+        message += 'Invalid Password';
+      } else (err.eresult === Steam.EResult.InvalidLoginAuthCode) {
+        message += 'Invalid Steam Guard auth code';
+      }
       UIActions.logout(message);
     } else {
       setTimeout(function () {
