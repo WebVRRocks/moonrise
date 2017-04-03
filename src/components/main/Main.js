@@ -10,22 +10,10 @@ var Toolbar = require('../toolbar/Toolbar.js');
 var ChangeNameDialog = require('../dialogs/ChangeNameDialog.js');
 var AddFriendDialog = require('../dialogs/AddFriendDialog.js');
 
-const LOBBY_URL = 'https://lobby.webvr.rocks';
-const QBRT_BIN = path.join(__dirname, '..', '..', '..', '..', 'node_modules', '.bin', 'qbrt');
-
 var Main = React.createClass({
   render: function () {
-    exec(`${QBRT_BIN} run "${LOBBY_URL}"`, (err, stdout, stderr) => {
-      if (err) {
-        console.error(err);
-      }
-      if (stdout) {
-        console.log(stdout);
-      }
-      if (stderr) {
-        console.error(stderr);
-      }
-    });
+    console.log('Main render');
+
 
     return (
       <div className="window">

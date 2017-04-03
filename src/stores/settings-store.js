@@ -1,15 +1,16 @@
-var Dispatcher = require('../dispatcher');
 var EventEmitter = require('events').EventEmitter;
-var assign = require('object-assign');
 
-var CHANGE_EVENT = 'change';
+var objectAssign = require('object-assign');
 
-var _settings = {
+const Dispatcher = require('../dispatcher');
+
+const CHANGE_EVENT = 'change';
+
+const _settings = {
   checkForUpdatesOnStartup: true
 };
 
-var SettingsStore = assign({}, EventEmitter.prototype, {
-
+let SettingsStore = objectAssign({}, EventEmitter.prototype, {
   emitChange: function () {
     this.emit(CHANGE_EVENT);
   },
@@ -25,11 +26,10 @@ var SettingsStore = assign({}, EventEmitter.prototype, {
   get: function () {
     return _settings;
   }
-
 });
 
-SettingsStore.dispatchToken = Dispatcher.register(function (action) {
-  switch(action.type) {
+SettingsStore.dispatchToken = Dispatcher.register(action => {
+  switch (action.type) {
     default:
       // ignore
   }

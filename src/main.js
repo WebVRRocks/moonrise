@@ -1,3 +1,6 @@
+const path = require('path');
+const spawn = require('child_process').spawn;
+
 const electron = require('electron');
 
 const app = electron.app;
@@ -7,14 +10,21 @@ const appMenu = require('./ui/menus/app-menu.js');
 const Logger = require('./utils/logger.js')('main');
 const Settings = require('./utils/settings.js');
 
-let electronConnectClient;
 const IS_DEV = process.execPath.indexOf('electron') > -1;
+const LOBBY_URL = IS_DEV ? 'http://localhost:8000/' : 'https://lobby.webvr.rocks/';
+let electronConnectClient;
+let firefoxChild;
+const qbrt = path.join(__dirname, '..', '..', 'node_modules', '.bin', 'qbrt');
 
 // TODO: Get this working later? Requires submit URL.
 // require('crash-reporter').start();
 
 let mainWindow = null;
 let title = app.getName();
+const WINDOW_DEFAULTS = {
+  width: 800,
+  height: 600
+};
 let WINDOW_STATE_KEY = 'lastMainWindowState';
 
 if (IS_DEV) {
@@ -23,6 +33,7 @@ if (IS_DEV) {
 }
 
 app.on('window-all-closed', () => {
+  console.log('window-all-closed');
   if (process.platform !== 'darwin') {
     app.quit();
   }
@@ -30,7 +41,56 @@ app.on('window-all-closed', () => {
 
 app.on('ready', () => {
   Settings.get(WINDOW_STATE_KEY, (err, data) => {
-    var lastWindowsState = err && {width: 800, height: 600} || data;
+    let lastWindowsState = err && WINDOW_DEFAULTS || data;
+
+    let firefoxQuitting = false;
+
+    require('promise.prototype.finally').shim();
+
+    let exitCode = 0;
+
+    new Promise((resolve, reject) => {
+      const outputRegex = /opened (.*) in new window/;
+      firefoxChild = spawn('node', [qbrt, 'run', LOBBY_URL]);
+
+      let totalOutput = '';
+      firefoxChild.stdout.on('data', data => {
+        const output = data.toString('utf8');
+        totalOutput += output;
+        console.log('[firefox] Child process output: %s', output.trim());
+        if (outputRegex.test(totalOutput)) {
+          console.log('[firefox] Child process opened');
+        }
+      });
+
+      firefoxChild.stderr.on('data', data => {
+        console.error('[firefox] Child process error: %s', data.toString('utf8').trim());
+      });
+
+      firefoxChild.on('exit', exitCode => {
+        if (!outputRegex.test(totalOutput)) {
+          console.error('[firefox] Child process failed to open');
+        }
+
+        if (process.platform === 'win32') {
+          console.log('[firefox] Child process exited with "SIGINT"');
+        } else {
+          console.log('[firefox] Child process exited with success code "%s" (0)',
+            exitCode);
+        }
+      });
+
+      firefoxChild.on('close', exitCode => {
+        console.log('[firefox] Child process exited with code "%s"', exitCode);
+        resolve();
+      });
+    }).catch(error => {
+      console.error('[firefox]', error);
+      exitCode = 1;
+    }).finally(() => {
+      console.log('[firefox] Child process exited with code "%s"', exitCode);
+      process.exit(exitCode);
+    });
 
     mainWindow = new BrowserWindow({
       x: lastWindowsState.x,
@@ -49,6 +109,8 @@ app.on('ready', () => {
     }
 
     mainWindow.on('closed', () => {
+      firefoxChild.kill('SIGINT');
+      firefoxQuitting = true;
       mainWindow = null;
     });
 
@@ -64,7 +126,7 @@ app.on('ready', () => {
     });
 
     function preserveWindowState () {
-      var currentWindowsState = mainWindow.getBounds();
+      let currentWindowsState = mainWindow.getBounds();
       currentWindowsState.maximized = mainWindow.isMaximized();
 
       Settings.set(WINDOW_STATE_KEY, currentWindowsState, setErr => {
