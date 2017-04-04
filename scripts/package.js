@@ -24,10 +24,6 @@ if (process.argv[2] === '--win32') {
   platform = 'win32';
   arch = 'ia32';
   icon = 'resources/icon.ico';
-} else if (process.argv[2] === '--win64') {
-  platform = 'win64';
-  arch = 'ia64';
-  icon = 'resources/icon.ico';
 }
 
 const options = {
@@ -38,7 +34,7 @@ const options = {
   out: outputFolder,
   platform: platform,
   arch: arch,
-  version: electronVersion,
+  electronVersion: electronVersion,
   prune: true,
   icon: icon,
   ignore: [
@@ -56,13 +52,13 @@ rimraf(path.join('.', outputFolder), removeErr => {
   }
 
   packager(options, (err, appPaths) => {
-    var appPath = appPaths[0];
-
     if (err) {
       console.log('electron-packager failed with the following error:');
       console.log(err);
       process.exit(1);
     } else {
+      var appPath = appPaths[0];
+
       console.log('electron-packager finished packaging ' + productName);
       console.log('App path: %s', appPath);
       console.log('Platform: %s', platform);
