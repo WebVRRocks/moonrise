@@ -51,7 +51,7 @@ The next-generation WebVR browser.
 Refer to [this page on MDN for debugging Firefox browser extensions](https://developer.mozilla.org/en-US/Add-ons/WebExtensions/Debugging_(before_Firefox_50)).
 
 
-## Acknowledgements
+## Acknowledgments
 
 Thank you to the following projects and individuals:
 
