@@ -38,7 +38,7 @@ test_script:
   - npm run package
 
 artifacts:
-  - path: releases/**/*
+  - path: 'releases/**/*'
 
 deploy:
   # Deploy to GitHub Releases.
