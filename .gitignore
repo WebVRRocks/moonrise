@@ -1,9 +1,10 @@
+*.log
+*.log*
 .DS_Store
 .com.apple.timemachine*
 .env
+build
 dist
 node_modules
-npm-debug.log*
-npm-debug*.log*
 releases
 tmp
