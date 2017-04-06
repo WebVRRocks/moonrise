@@ -46,3 +46,5 @@ deploy:
     artifact: /releases/**/*/  # Upload all release packages to GitHub Releases.
     draft: false
     prerelease: false
+    auth_token:
+      secure: FxNVufyQzEIhuq5Te7BKvyzgmHmPpmtSAzxpE1y6FWEd700fgVXlPnh6Ghl0Qy8h
